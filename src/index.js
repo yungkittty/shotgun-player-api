@@ -40,7 +40,6 @@ function userSerializer(user, done) {
 passport.serializeUser(userSerializer);
 passport.deserializeUser(userSerializer);
 
-const appOnMountPath = express();
 const app = express();
 
 app.use(cors());
@@ -50,8 +49,6 @@ app.use(methodOverride());
 app.use(session({ secret: serverConfig.sessionSecret }));
 app.use(passport.initialize());
 app.use(passport.session());
-/* app.use(express.static(path.resolve(__dirname, "../../../node_modules/")));
-app.use(express.static(path.resolve(__dirname, "../../../client/"))); */
 app.use(timeout("5s"));
 
 // AUTH
@@ -86,17 +83,6 @@ app.post("/graphql", (req, res) => {
   })(req, res);
 });
 
-/* app.get("/", (req, res) => {
-  res.set("Content-Type", "text/html");
-  res.send(
-    new Buffer(
-      fs.readFileSync(path.resolve(__dirname, "../../../client/index.html"))
-    )
-  );
-}); */
-
-if (serverConfig.mountPath) {
-  appOnMountPath.use(serverConfig.mountPath, app);
-}
 console.log(`graphql server listening on port ${PORT}`);
-(serverConfig.mountPath ? appOnMountPath : app).listen(PORT);
+
+app.listen(PORT);
