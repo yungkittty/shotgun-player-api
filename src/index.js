@@ -1,6 +1,7 @@
 const express = require("express");
 const SpotifyGraphQL = require("spotify-graphql");
 const ExpressGraphQL = require("express-graphql");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
@@ -42,6 +43,7 @@ passport.deserializeUser(userSerializer);
 const appOnMountPath = express();
 const app = express();
 
+app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(methodOverride());
