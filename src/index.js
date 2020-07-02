@@ -42,7 +42,7 @@ passport.deserializeUser(userSerializer);
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(methodOverride());
@@ -55,10 +55,7 @@ app.use(timeout("5s"));
 app.get(
   "/auth/connect",
   passport.authenticate("spotify", { scope: spotifyConfig.scopes }),
-  (req, res) => {
-    // The request will be redirected to spotify for authentication, so this
-    // function will not be called.
-  }
+  (req, res) => {}
 );
 
 app.get("/auth/callback", passport.authenticate("spotify"), (req, res) => {
