@@ -64,7 +64,7 @@ app.get("/auth/callback", passport.authenticate("spotify"), (req, res) => {
 
 app.get("/auth/logout", (req, res) => {
   req.logout();
-  res.redirect(serverConfig.mountPath);
+  res.redirect(`${serverConfig.mountPath}/sign-in`);
 });
 
 app.post("/graphql", (req, res) => {
